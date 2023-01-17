@@ -14,7 +14,7 @@ public class ValidateObjects {
                 .fieldName("title")
                 .value(postDTO.getTitle())
                 .required(true)
-                .maxLength(30)
+                .maxLength(20)
                 .build().validate());
 
         errors.putAll(ValidateUtils.builder()
@@ -37,11 +37,18 @@ public class ValidateObjects {
                 .fieldName("content")
                 .value(postDTO.getContent())
                 .required(true)
-                .maxLength(30)
+                .maxLength(20)
                 .build().validate());
 
-//        errors.putAll(ValidateUtils.builder()
-//                .fieldName(""));
+        errors.putAll(ValidateUtils.builder()
+                .fieldName("phoneNumber")
+                .value(postDTO.getPhoneNumber())
+                .required(true)
+                .maxLength(11)
+                .onlyNumber(true)
+                .build().validate());
+
+
         return errors;
     }
 }

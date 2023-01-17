@@ -27,7 +27,7 @@ public class ValidateUtils {
         Map<String, String> errors = new HashMap<>();
 
         // checks field is required
-        if (required && !ObjectUtils.isEmpty(value)
+        if (required && ObjectUtils.isEmpty(value)
                 && !ObjectUtils.isEmpty(fieldName)) {
             errors.put(fieldName, fieldName + " is required");
         }
@@ -65,7 +65,7 @@ public class ValidateUtils {
                 && !ObjectUtils.isEmpty(value)
                 && !ObjectUtils.isEmpty(fieldName)){
             try{
-                double v = Double.parseDouble(value.toString());
+                Long v = Long.parseLong(value.toString());
                 if (v > max || v < min){
                     errors.put(fieldName, fieldName + " must range from " + min + " to " + max);
                 }

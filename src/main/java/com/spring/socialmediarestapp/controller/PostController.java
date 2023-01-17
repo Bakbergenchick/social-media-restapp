@@ -1,13 +1,20 @@
 package com.spring.socialmediarestapp.controller;
 
 import com.spring.socialmediarestapp.service.PostService;
+import com.spring.socialmediarestapp.utils.ValidateObjects;
+import com.spring.socialmediarestapp.utils.ValidateUtils;
 import com.spring.socialmediarestapp.utils.request.PostDTO;
 import com.spring.socialmediarestapp.utils.response.PostResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/post")
@@ -26,7 +33,12 @@ public class PostController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> createPost(@Valid @RequestBody PostDTO postDTO){
+    public ResponseEntity<?> createPost(@RequestBody PostDTO postDTO){
+        Map<String, String> errors = ValidateObjects.validatePostDTO(postDTO);
+
+        if (!ObjectUtils.isEmpty(errors)){
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity<>(postService.savePost(postDTO), HttpStatus.CREATED);
     }
 
